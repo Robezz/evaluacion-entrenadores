@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16202B">
+<link rel="icon" href="icono.png">
+<link rel="apple-touch-icon" href="icono.png">
+<meta name="apple-mobile-web-app-title" content="Celta · Observación">
+<title>Observación de entrenadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#16202B; --celeste:#7EA9E1; --tinta-2:#4A5765; --tinta-3:#8794A3;
+  --papel:#EFF1F4; --blanco:#FFFFFF; --linea:#D9DEE5; --linea-fuerte:#B6BFCB;
+  --n4:#2F6FBF; --n3:#17876A; --n2:#C98314; --n1:#C4562B; --alerta:#B3261E;
+  --r:10px; --display:"Barlow Semi Condensed",system-ui,sans-serif;
+  --texto:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--papel);color:var(--tinta);font-family:var(--texto);font-size:15px;
+  line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0}
+h1{font-size:19px} h2{font-size:20px}
+h3{font-size:15px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--tinta-2)}
+button{font-family:inherit;font-size:14px;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:16px;width:100%;padding:10px 12px;
+  border:1px solid var(--linea-fuerte);border-radius:var(--r);background:var(--blanco);color:var(--tinta)}
+textarea{min-height:70px;resize:vertical}
+label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0 0 5px}
+
+.envoltorio{max-width:820px;margin:0 auto;padding:0 16px 48px}
+.barra{background:var(--tinta);color:#fff;position:sticky;top:0;z-index:20;border-bottom:4px solid var(--celeste)}
+.barra .envoltorio{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.barra img{height:30px;width:30px;flex:0 0 auto;border-radius:6px}
+.barra h1{color:#fff;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;
+  border-radius:var(--r);padding:7px 12px;white-space:nowrap}
+
+.tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:18px;margin:16px 0}
+.btn{background:var(--tinta);color:#fff;border:1px solid var(--tinta);border-radius:var(--r);padding:11px 18px;font-weight:500}
+.btn.suave{background:transparent;color:var(--tinta);border-color:var(--linea-fuerte)}
+.btn:disabled{opacity:.5;cursor:default}
+.fila-btn{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+.lista{list-style:none;margin:0;padding:0}
+.lista li{border-bottom:1px solid var(--linea)}
+.lista li:last-child{border-bottom:0}
+.lista button{width:100%;text-align:left;background:transparent;border:0;padding:14px 4px;
+  display:flex;align-items:center;gap:12px;font-size:15px;color:var(--tinta)}
+.lista .meta{margin-left:auto;font-size:13px;color:var(--tinta-3);white-space:nowrap}
+.vacio{text-align:center;padding:26px 12px;color:var(--tinta-2)}
+.error{background:#FBE9E7;border:1px solid #E8B4AE;color:var(--alerta);border-radius:var(--r);
+  padding:11px 14px;margin:14px 0;font-size:14px}
+.aviso{font-size:13px;color:var(--tinta-2);margin:6px 0 0}
+
+.sec-tit{font-family:var(--display);font-size:16px;font-weight:600;padding:18px 0 6px;
+  border-bottom:2px solid var(--tinta);margin-bottom:2px}
+.crit{padding:10px 0;border-bottom:1px solid var(--linea)}
+.crit-cab{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.crit-cab span{font-size:14px;line-height:1.3}
+.niveles{display:flex;gap:7px;flex:0 0 auto}
+.niveles button{width:30px;height:30px;padding:0;border-radius:50%;
+  border:1.5px solid var(--linea-fuerte);background:transparent}
+.niveles button[aria-pressed="true"][data-v="4"]{background:var(--n4);border-color:var(--n4)}
+.niveles button[aria-pressed="true"][data-v="3"]{background:var(--n3);border-color:var(--n3)}
+.niveles button[aria-pressed="true"][data-v="2"]{background:var(--n2);border-color:var(--n2)}
+.niveles button[aria-pressed="true"][data-v="1"]{background:var(--n1);border-color:var(--n1)}
+.niveles button[aria-pressed="true"][data-v="0"]{border-color:var(--tinta);border-width:3px}
+.desc{font-size:13px;color:var(--tinta-2);background:var(--papel);border-radius:var(--r);
+  padding:8px 10px;margin-top:8px}
+.desc b{color:var(--tinta);font-weight:500}
+.crit textarea{margin-top:8px;min-height:52px;font-size:14px}
+
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;padding:12px 0;font-size:12px;color:var(--tinta-2)}
+.punto{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--linea)}
+.chk input{width:20px;height:20px;flex:0 0 auto;margin-top:2px}
+.chk label{margin:0;font-size:14px;font-weight:400;color:var(--tinta)}
+.estado{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;border:1px solid var(--linea-fuerte);color:var(--tinta-2)}
+.estado.cerrada{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.pie-fijo{position:sticky;bottom:0;background:var(--papel);border-top:1px solid var(--linea);
+  padding:12px 0;margin-top:8px}
+.pie-fijo .fila-btn{margin-top:0}
+
+/* ---- Informe ---- */
+.informe{background:#fff;padding:26px 30px;border:1px solid var(--linea);border-radius:4px;font-size:12px;line-height:1.5}
+.informe .cab{display:flex;justify-content:space-between;gap:16px;border-bottom:1.5px solid var(--tinta);
+  padding-bottom:9px;flex-wrap:wrap}
+.informe .cab p{margin:0}
+.informe .nom{font-family:var(--display);font-size:19px;font-weight:600}
+.informe .escudo{width:34px;height:34px;flex:0 0 auto;border-radius:4px}
+.informe .banda{border:1.5px solid var(--alerta);color:var(--alerta);border-radius:6px;
+  padding:10px 12px;margin-top:12px}
+.informe .banda p{margin:0 0 4px;font-weight:600}
+.informe .banda ul{margin:0;padding-left:18px}
+.informe .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 26px;margin-top:14px}
+.informe .bt{font-weight:600;border-bottom:.5px solid var(--linea-fuerte);padding-bottom:3px;margin:13px 0 4px;
+  display:flex;justify-content:space-between;gap:10px}
+.informe .cols > div > .bt:first-child{margin-top:0}
+.informe .ln{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+.informe .ln em{font-style:normal;color:var(--tinta-2)}
+.informe .no{color:var(--tinta-3)}
+.informe .nota{color:var(--tinta-2);padding:0 0 3px 10px;font-size:11px}
+.informe .texto{margin:0;color:#33404E;white-space:pre-wrap}
+.informe .pie{margin-top:16px;padding-top:6px;border-top:.5px solid var(--linea-fuerte);
+  display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:var(--tinta-3);flex-wrap:wrap}
+
+@media (max-width:560px){ .informe{padding:18px} .informe .cols{grid-template-columns:minmax(0,1fr)} }
+@media print{
+  body{background:#fff}
+  .barra,.no-print{display:none !important}
+  .envoltorio{max-width:none;padding:0}
+  .informe{border:0;padding:0;font-size:10.5pt}
+  .informe .cols{grid-template-columns:1fr 1fr;gap:0 22px}
+  .informe .escudo,.informe .banda{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4;margin:14mm}
+}
+</style>
+</head>
+<body>
+
+<div class="barra no-print">
+  <div class="envoltorio">
+    <img src="icono.png" alt="">
+    <h1 id="titulo">Observación de entrenadores</h1>
+    <button id="atras" hidden>Atrás</button>
+    <button id="salir" hidden>Salir</button>
+  </div>
+</div>
+
+<main class="envoltorio" id="app"></main>
+
+<script type="module">
+// ---------------------------------------------------------------------
+//  CONFIGURACIÓN — los mismos dos valores que en index.html
+// ---------------------------------------------------------------------
+const SUPABASE_URL  = "https://qubqlsxkvilyzqjlizsn.supabase.co";
+const SUPABASE_ANON = "PEGA-AQUI-TU-CLAVE-sb_publishable_...";
+const NOMBRE_CLUB   = "Celta Baloncesto";
+// ---------------------------------------------------------------------
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/+esm";
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+const app = document.getElementById("app");
+const elTitulo = document.getElementById("titulo");
+const btAtras = document.getElementById("atras");
+const btSalir = document.getElementById("salir");
+
+const NIVELES = [
+  { v: 4, t: "Excelente",      c: "var(--n4)" },
+  { v: 3, t: "Bueno",          c: "var(--n3)" },
+  { v: 2, t: "Mejorable",      c: "var(--n2)" },
+  { v: 1, t: "Necesita apoyo", c: "var(--n1)" },
+  { v: 0, t: "No observado",   c: null }
+];
+const PERIODOS = [
+  { v: "Inicial",         t: "Inicial · noviembre" },
+  { v: "Media temporada", t: "Media temporada · marzo" },
+  { v: "Final",           t: "Final · junio" }
+];
+const texto = n => (NIVELES.find(x => x.v === (n ?? 0)) || NIVELES[4]).t;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fecha = f => f ? new Date(f + "T00:00:00").toLocaleDateString("es-ES") : "";
+
+let sesion = null, perfil = null, catalogo = null, alertas = null, volver = null;
+
+function pinta(html, titulo, atras) {
+  app.innerHTML = html;
+  elTitulo.textContent = titulo;
+  volver = atras || null;
+  btAtras.hidden = !atras;
+  btSalir.hidden = !sesion;
+  window.scrollTo(0, 0);
+}
+function fallo(e) {
+  const p = document.createElement("p");
+  p.className = "error";
+  p.textContent = "No se pudo completar la operación: " + (e?.message || e);
+  app.prepend(p);
+  p.scrollIntoView({ block: "nearest" });
+}
+btAtras.onclick = () => volver && volver();
+btSalir.onclick = async () => { await sb.auth.signOut(); sesion = perfil = null; vistaLogin(); };
+
+const esCoord = () => perfil && (perfil.rol === "admin" || perfil.rol === "coordinacion");
+
+// ------------------------------ acceso -------------------------------
+
+function vistaLogin() {
+  pinta(`
+    <div class="tarjeta" style="margin-top:32px">
+      <h2>Entrar</h2>
+      <p class="aviso">Con las mismas credenciales que la herramienta de jugadoras.</p>
+      <div style="margin-top:16px"><label for="em">Correo</label>
+        <input id="em" type="email" autocomplete="username" inputmode="email"></div>
+      <div style="margin-top:12px"><label for="pw">Contraseña</label>
+        <input id="pw" type="password" autocomplete="current-password"></div>
+      <div class="fila-btn"><button class="btn" id="entrar">Entrar</button></div>
+    </div>`, NOMBRE_CLUB);
+
+  const entrar = async () => {
+    const b = document.getElementById("entrar");
+    b.disabled = true;
+    const { error } = await sb.auth.signInWithPassword({
+      email: document.getElementById("em").value.trim(),
+      password: document.getElementById("pw").value
+    });
+    b.disabled = false;
+    if (error) return fallo(error);
+    arrancar();
+  };
+  document.getElementById("entrar").onclick = entrar;
+  document.getElementById("pw").onkeydown = e => { if (e.key === "Enter") entrar(); };
+}
+
+async function arrancar() {
+  const { data } = await sb.auth.getSession();
+  sesion = data.session;
+  if (!sesion) return vistaLogin();
+  const { data: p, error } = await sb.from("perfiles")
+    .select("id,nombre,rol").eq("id", sesion.user.id).maybeSingle();
+  if (error) { pinta("", NOMBRE_CLUB); return fallo(error); }
+  if (!p) { pinta(`<div class="tarjeta vacio">Tu usuario todavía no tiene perfil en el club.</div>`, NOMBRE_CLUB); return; }
+  perfil = p;
+  if (!esCoord()) {
+    pinta(`<div class="tarjeta vacio">Esta herramienta es de uso exclusivo de la coordinación.</div>`, NOMBRE_CLUB);
+    return;
+  }
+  vistaEntrenadores();
+}
+
+// --------------------------- listado inicial -------------------------
+
+async function vistaEntrenadores() {
+  pinta(`<div class="tarjeta vacio">Cargando…</div>`, "Entrenadores");
+  const { data, error } = await sb.from("ent_entrenadores")
+    .select("id,nombre,categoria").eq("activo", true).order("nombre");
+  if (error) { pinta("", "Entrenadores"); return fallo(error); }
+
+  pinta(`
+    <div class="tarjeta">
+      <h2>Entrenadores</h2>
+      ${data?.length ? `<ul class="lista" style="margin-top:10px">${data.map(g => `
+        <li><button data-e="${g.id}" data-n="${esc(g.nombre)}">
+          <span>${esc(g.nombre)}</span><span class="meta">${esc(g.categoria || "")}</span>
+        </button></li>`).join("")}</ul>`
+        : `<div class="vacio">Todavía no hay entrenadores dados de alta.</div>`}
+    </div>
+    <div class="tarjeta">
+      <h3>Añadir entrenador</h3>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:12px">
+        <div><label for="nn">Nombre y apellidos</label><input id="nn"></div>
+        <div><label for="nc">Categoría</label><input id="nc" placeholder="Alevín"></div>
+      </div>
+      <div class="fila-btn"><button class="btn suave" id="alta" style="flex:0 0 auto">Añadir</button></div>
+    </div>`, "Entrenadores");
+
+  app.querySelectorAll("[data-e]").forEach(b =>
+    b.onclick = () => vistaHistorial(+b.dataset.e, b.dataset.n));
+
+  document.getElementById("alta").onclick = async () => {
+    const nombre = document.getElementById("nn").value.trim();
+    if (!nombre) return fallo(new Error("escribe el nombre."));
+    const { error } = await sb.from("ent_entrenadores").insert({
+      nombre, categoria: document.getElementById("nc").value.trim() || null });
+    if (error) return fallo(error);
+    vistaEntrenadores();
+  };
+}
+
+async function vistaHistorial(entId, entNom) {
+  const atras = vistaEntrenadores;
+  pinta(`<div class="tarjeta vacio">Cargando…</div>`, entNom, atras);
+  const { data, error } = await sb.from("observaciones")
+    .select("id,fecha,periodo,categoria,estado,temporada_id,temporadas(nombre)")
+    .eq("entrenador_id", entId).order("fecha", { ascending: false });
+  if (error) { pinta("", entNom); return fallo(error); }
+
+  const grupos = {};
+  (data || []).forEach(o => {
+    const k = o.temporadas?.nombre || "Sin temporada";
+    (grupos[k] = grupos[k] || []).push(o);
+  });
+  const historial = Object.keys(grupos).sort().reverse().map(k => `
+    <p style="font-family:var(--display);font-weight:600;font-size:15px;
+       margin:16px 0 2px;color:var(--tinta-2)">${esc(k)}</p>
+    <ul class="lista">${grupos[k].map(o => `
+      <li><div style="display:flex;align-items:center;gap:6px">
+        <button data-o="${o.id}" style="flex:1">
+          <span>${esc(o.periodo || "Observación")} · ${fecha(o.fecha)}</span>
+          <span class="meta"><span class="estado ${o.estado}">${o.estado === "cerrada" ? "Cerrada" : "Borrador"}</span></span>
+        </button>
+        <button class="btn suave" data-del="${o.id}" style="flex:0 0 auto;padding:7px 11px">Borrar</button>
+      </div></li>`).join("")}</ul>`).join("");
+
+  pinta(`
+    <div class="tarjeta">
+      <h2>${esc(entNom)}</h2>
+      <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:16px">
+        <div style="flex:1;min-width:190px"><label for="per">Periodo</label>
+          <select id="per">${PERIODOS.map(p => `<option value="${p.v}">${p.t}</option>`).join("")}</select></div>
+        <button class="btn" id="nueva" style="flex:0 0 auto">Nueva observación</button>
+      </div>
+    </div>
+    <div class="tarjeta">
+      <h3>Historial</h3>
+      ${data?.length ? historial : `<div class="vacio">Todavía no hay observaciones registradas.</div>`}
+    </div>`, entNom, atras);
+
+  app.querySelectorAll("[data-o]").forEach(b =>
+    b.onclick = () => vistaInforme(+b.dataset.o, () => vistaHistorial(entId, entNom)));
+
+  app.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
+    if (!confirm("Se borrará esta observación por completo. No se puede deshacer. ¿Continuar?")) return;
+    const { error } = await sb.from("observaciones").delete().eq("id", +b.dataset.del);
+    if (error) return fallo(error);
+    vistaHistorial(entId, entNom);
+  });
+
+  const n = document.getElementById("nueva");
+  if (n) n.onclick = async () => {
+    const periodo = document.getElementById("per").value;
+    const atrasH = () => vistaHistorial(entId, entNom);
+    const ya = (data || []).find(x => x.periodo === periodo && x.temporadas);
+    if (ya && ya.periodo === periodo) {
+      if (!confirm(`Ya existe una observación «${periodo}» de este entrenador esta temporada. ¿Abrir la que hay?`)) return;
+      return ya.estado === "cerrada" ? vistaInforme(ya.id, atrasH) : vistaFicha(ya.id, entNom, atrasH);
+    }
+    const { data: o, error } = await sb.from("observaciones")
+      .insert({ entrenador_id: entId, evaluador_id: perfil.id, periodo })
+      .select("id").single();
+    if (error) return fallo(error);
+    vistaFicha(o.id, entNom, atrasH);
+  };
+}
+
+// ------------------------------- ficha -------------------------------
+
+async function cargarCatalogo() {
+  if (catalogo && alertas) return;
+  const [{ data: cr, error: e1 }, { data: al, error: e2 }] = await Promise.all([
+    sb.from("ent_criterios").select("id,nombre,orden,d4,d3,d2,d1,ent_secciones(id,nombre,orden)").eq("activo", true),
+    sb.from("ent_alertas").select("id,nombre,orden").eq("activa", true).order("orden")
+  ]);
+  if (e1 || e2) throw (e1 || e2);
+  const mapa = new Map();
+  cr.forEach(c => {
+    const s = c.ent_secciones;
+    if (!mapa.has(s.id)) mapa.set(s.id, { nombre: s.nombre, orden: s.orden, items: [] });
+    mapa.get(s.id).items.push(c);
+  });
+  catalogo = [...mapa.values()].sort((a, b) => a.orden - b.orden);
+  catalogo.forEach(s => s.items.sort((x, y) => x.orden - y.orden));
+  alertas = al || [];
+}
+
+async function vistaFicha(obsId, entNom, atras) {
+  pinta(`<div class="tarjeta vacio">Cargando ficha…</div>`, entNom, atras);
+  try { await cargarCatalogo(); } catch (e) { return fallo(e); }
+
+  const [{ data: o, error: e1 }, { data: vals, error: e2 }, { data: als, error: e3 }] = await Promise.all([
+    sb.from("observaciones").select("*").eq("id", obsId).single(),
+    sb.from("obs_valoraciones").select("criterio_id,nivel,nota").eq("observacion_id", obsId),
+    sb.from("obs_alertas").select("alerta_id").eq("observacion_id", obsId)
+  ]);
+  if (e1 || e2 || e3) return fallo(e1 || e2 || e3);
+
+  const estado = {}, notas = {};
+  (vals || []).forEach(v => { estado[v.criterio_id] = v.nivel; if (v.nota) notas[v.criterio_id] = v.nota; });
+  const marcadas = new Set((als || []).map(a => a.alerta_id));
+  const total = catalogo.reduce((n, s) => n + s.items.length, 0);
+  const hechos = () => Object.keys(estado).length;
+
+  const leyenda = NIVELES.map(n => `<span><span class="punto" style="${n.c
+    ? "background:" + n.c : "border:1.5px solid var(--linea-fuerte)"}"></span>${n.t}</span>`).join("");
+
+  const cuerpo = catalogo.map(s => `
+    <div class="sec-tit">${esc(s.nombre)}</div>
+    ${s.items.map(c => `
+      <div class="crit">
+        <div class="crit-cab">
+          <span>${esc(c.nombre)}</span>
+          <div class="niveles" role="group" aria-label="${esc(c.nombre)}">
+            ${NIVELES.map(n => `<button type="button" data-c="${c.id}" data-v="${n.v}"
+              aria-label="${n.t}" title="${n.t}"
+              aria-pressed="${(estado[c.id] ?? 0) === n.v ? "true" : "false"}"></button>`).join("")}
+          </div>
+        </div>
+        <div class="desc" id="d-${c.id}">${descripcion(c, estado[c.id])}</div>
+        <textarea id="n-${c.id}" placeholder="Observación (opcional)">${esc(notas[c.id] || "")}</textarea>
+      </div>`).join("")}`).join("");
+
+  pinta(`
+    <div class="tarjeta">
+      <h2>${esc(entNom)}</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+        <div><label for="f">Fecha</label><input id="f" type="date" value="${o.fecha || ""}"></div>
+        <div><label for="cat">Categoría</label><input id="cat" value="${esc(o.categoria || "")}"></div>
+      </div>
+      <p class="aviso"><span id="cont">${hechos()}</span> de ${total} criterios valorados.
+        Deja «No observado» lo que no salió en el entrenamiento: no penaliza en el resultado.</p>
+      <div class="leyenda">${leyenda}</div>
+      ${cuerpo}
+    </div>
+
+    <div class="tarjeta">
+      <h3>Indicadores de alerta</h3>
+      <p class="aviso">Si marcas alguno, requiere intervención inmediata del mentor,
+        con independencia del resto de la valoración.</p>
+      <div style="margin-top:10px">${alertas.map(a => `
+        <div class="chk">
+          <input type="checkbox" id="a-${a.id}" ${marcadas.has(a.id) ? "checked" : ""}>
+          <label for="a-${a.id}">${esc(a.nombre)}</label>
+        </div>`).join("")}</div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Conclusiones</h3>
+      <div style="margin-top:12px"><label for="t1">Fortalezas observadas</label>
+        <textarea id="t1">${esc(o.fortalezas || "")}</textarea></div>
+      <div style="margin-top:12px"><label for="t2">Áreas de mejora prioritarias</label>
+        <textarea id="t2">${esc(o.areas_mejora || "")}</textarea></div>
+      <div style="margin-top:12px"><label for="t3">Recomendaciones específicas</label>
+        <textarea id="t3">${esc(o.recomendaciones || "")}</textarea></div>
+      <div style="margin-top:12px"><label for="t4">Objetivos a trabajar</label>
+        <textarea id="t4">${esc(o.objetivos || "")}</textarea></div>
+      <div style="margin-top:12px;max-width:220px"><label for="pf">Próxima observación</label>
+        <input id="pf" type="date" value="${o.proxima_fecha || ""}"></div>
+    </div>
+
+    <div class="pie-fijo">
+      <div class="fila-btn">
+        <button class="btn suave" id="borrador" style="flex:1">Guardar borrador</button>
+        <button class="btn" id="cerrar" style="flex:1">Cerrar observación</button>
+      </div>
+    </div>`, entNom, atras);
+
+  app.querySelectorAll(".niveles button").forEach(b => {
+    b.onclick = () => {
+      const id = +b.dataset.c, v = +b.dataset.v;
+      estado[id] = v;
+      b.parentElement.querySelectorAll("button").forEach(o2 =>
+        o2.setAttribute("aria-pressed", o2 === b ? "true" : "false"));
+      const c = catalogo.flatMap(s => s.items).find(x => x.id === id);
+      document.getElementById("d-" + id).innerHTML = descripcion(c, v);
+      document.getElementById("cont").textContent = hechos();
+    };
+  });
+
+  async function guardar(cerrando) {
+    const filas = Object.entries(estado).map(([id, v]) => ({
+      observacion_id: obsId, criterio_id: +id,
+      nivel: v > 0 ? v : null,
+      nota: (document.getElementById("n-" + id)?.value || "").trim() || null
+    }));
+    if (filas.length) {
+      const { error } = await sb.from("obs_valoraciones")
+        .upsert(filas, { onConflict: "observacion_id,criterio_id" });
+      if (error) throw error;
+    }
+    const { error: eDel } = await sb.from("obs_alertas").delete().eq("observacion_id", obsId);
+    if (eDel) throw eDel;
+    const nuevas = alertas.filter(a => document.getElementById("a-" + a.id).checked)
+      .map(a => ({ observacion_id: obsId, alerta_id: a.id }));
+    if (nuevas.length) {
+      const { error } = await sb.from("obs_alertas").insert(nuevas);
+      if (error) throw error;
+    }
+    const campos = {
+      fecha:           document.getElementById("f").value || null,
+      categoria:       document.getElementById("cat").value.trim() || null,
+      fortalezas:      document.getElementById("t1").value.trim() || null,
+      areas_mejora:    document.getElementById("t2").value.trim() || null,
+      recomendaciones: document.getElementById("t3").value.trim() || null,
+      objetivos:       document.getElementById("t4").value.trim() || null,
+      proxima_fecha:   document.getElementById("pf").value || null
+    };
+    if (cerrando) campos.estado = "cerrada";
+    const { error } = await sb.from("observaciones").update(campos).eq("id", obsId);
+    if (error) throw error;
+  }
+
+  document.getElementById("borrador").onclick = async e => {
+    e.target.disabled = true;
+    try { await guardar(false); e.target.textContent = "Borrador guardado"; }
+    catch (err) { fallo(err); }
+    finally { setTimeout(() => { e.target.disabled = false; e.target.textContent = "Guardar borrador"; }, 1600); }
+  };
+
+  document.getElementById("cerrar").onclick = async e => {
+    if (!confirm("Una vez cerrada, solo podrás editarla reabriéndola. ¿Cerrar la observación?")) return;
+    e.target.disabled = true;
+    try { await guardar(true); vistaInforme(obsId, atras); }
+    catch (err) { e.target.disabled = false; fallo(err); }
+  };
+}
+
+function descripcion(c, nivel) {
+  if (!nivel) return `Toca un nivel para ver qué significa. <b>Excelente:</b> ${esc(c.d4 || "")}`;
+  const d = { 4: c.d4, 3: c.d3, 2: c.d2, 1: c.d1 }[nivel] || "";
+  return `<b>${texto(nivel)}:</b> ${esc(d)}`;
+}
+
+// ------------------------------ informe ------------------------------
+
+async function vistaInforme(obsId, atras) {
+  pinta(`<div class="tarjeta vacio">Preparando informe…</div>`, "Informe", atras);
+  const { data, error } = await sb.rpc("informe_observacion", { obs_id: obsId });
+  if (error) return fallo(error);
+
+  const o = data.observacion, secs = data.secciones || [], als = data.alertas || [];
+  const mitad = Math.ceil(secs.length / 2);
+
+  const lista = s => `
+    <p class="bt"><span>${esc(s.nombre)}</span>
+      <span>${s.porcentaje == null ? "sin datos" : s.porcentaje + "% · " + s.observados + " criterios"}</span></p>
+    ${s.criterios.map(c => `
+      <div class="ln"><span>${esc(c.nombre)}</span>
+        <em class="${c.nivel == null ? "no" : ""}">${texto(c.nivel)}</em></div>
+      ${c.nota ? `<div class="nota">${esc(c.nota)}</div>` : ""}`).join("")}`;
+
+  const parrafo = (t, v) => v ? `<p class="bt"><span>${t}</span></p><p class="texto">${esc(v)}</p>` : "";
+
+  pinta(`
+    <div class="fila-btn no-print" style="margin:16px 0 0">
+      <button class="btn" id="imprimir" style="flex:0 0 auto">Imprimir o guardar en PDF</button>
+      ${o.estado === "borrador" ? `<button class="btn suave" id="seguir" style="flex:0 0 auto">Seguir editando</button>` : ""}
+      ${o.estado === "cerrada" ? `<button class="btn suave" id="reabrir" style="flex:0 0 auto">Reabrir</button>` : ""}
+    </div>
+    <div class="informe">
+      <div class="cab">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <img src="icono.png" alt="" class="escudo">
+          <div>
+            <p class="nom">${esc(o.entrenador_nombre || "")}</p>
+            <p>${esc(o.categoria || "")}</p>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <p>${esc(o.periodo || "Observación")} · ${fecha(o.fecha)}</p>
+          <p>Observa: ${esc(o.evaluador_nombre || "")}</p>
+        </div>
+      </div>
+
+      ${als.length ? `<div class="banda">
+        <p>Indicadores de alerta — requieren intervención del mentor</p>
+        <ul>${als.map(a => `<li>${esc(a)}</li>`).join("")}</ul>
+      </div>` : ""}
+
+      <div class="cols">
+        <div>${secs.slice(0, mitad).map(lista).join("")}</div>
+        <div>${secs.slice(mitad).map(lista).join("")}</div>
+      </div>
+
+      ${parrafo("Fortalezas observadas", o.fortalezas)}
+      ${parrafo("Áreas de mejora prioritarias", o.areas_mejora)}
+      ${parrafo("Recomendaciones específicas", o.recomendaciones)}
+      ${parrafo("Objetivos a trabajar", o.objetivos)}
+      ${o.proxima_fecha ? `<p class="texto" style="margin-top:10px"><b>Próxima observación:</b> ${fecha(o.proxima_fecha)}</p>` : ""}
+
+      <div class="pie">
+        <span>Los porcentajes se calculan solo sobre los criterios observados</span>
+        <span>${esc(NOMBRE_CLUB)} · documento interno del club</span>
+      </div>
+    </div>`, o.entrenador_nombre || "Informe", atras);
+
+  document.getElementById("imprimir").onclick = () => window.print();
+  const s = document.getElementById("seguir");
+  if (s) s.onclick = () => vistaFicha(obsId, o.entrenador_nombre, atras);
+  const r = document.getElementById("reabrir");
+  if (r) r.onclick = async () => {
+    if (!confirm("La observación volverá a estado de borrador. ¿Reabrir?")) return;
+    const { error } = await sb.from("observaciones").update({ estado: "borrador" }).eq("id", obsId);
+    if (error) return fallo(error);
+    vistaFicha(obsId, o.entrenador_nombre, atras);
+  };
+}
+
+arrancar();
+</script>
+</body>
+</html>

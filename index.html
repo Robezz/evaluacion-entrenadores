@@ -105,7 +105,9 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 .informe .ln{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
 .informe .ln em{font-style:normal;color:var(--tinta-2)}
 .informe .no{color:var(--tinta-3)}
+.informe .descr{color:var(--tinta-3);padding:0 0 2px 10px;font-size:10.5px;line-height:1.35}
 .informe .nota{color:var(--tinta-2);padding:0 0 3px 10px;font-size:11px}
+.informe .ln,.informe .descr,.informe .nota{break-inside:avoid}
 .informe .texto{margin:0;color:#33404E;white-space:pre-wrap}
 .informe .pie{margin-top:16px;padding-top:6px;border-top:.5px solid var(--linea-fuerte);
   display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:var(--tinta-3);flex-wrap:wrap}
@@ -140,7 +142,7 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 //  CONFIGURACIÓN — los mismos dos valores que en index.html
 // ---------------------------------------------------------------------
 const SUPABASE_URL  = "https://qubqlsxkvilyzqjlizsn.supabase.co";
-const SUPABASE_ANON = "sb_publishable_cNbBJ7D8tszAkI6EY9Jvqw_jkJckNBk";
+const SUPABASE_ANON = "PEGA-AQUI-TU-CLAVE-sb_publishable_...";
 const NOMBRE_CLUB   = "Celta Baloncesto";
 // ---------------------------------------------------------------------
 
@@ -524,6 +526,7 @@ async function vistaInforme(obsId, atras) {
     ${s.criterios.map(c => `
       <div class="ln"><span>${esc(c.nombre)}</span>
         <em class="${c.nivel == null ? "no" : ""}">${texto(c.nivel)}</em></div>
+      ${c.descriptor ? `<div class="descr">${esc(c.descriptor)}</div>` : ""}
       ${c.nota ? `<div class="nota">${esc(c.nota)}</div>` : ""}`).join("")}`;
 
   const parrafo = (t, v) => v ? `<p class="bt"><span>${t}</span></p><p class="texto">${esc(v)}</p>` : "";

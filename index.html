@@ -57,14 +57,22 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
   padding:11px 14px;margin:14px 0;font-size:14px}
 .aviso{font-size:13px;color:var(--tinta-2);margin:6px 0 0}
 
-.sec-tit{display:flex;align-items:center;gap:9px;width:100%;text-align:left;
-  font-family:var(--display);font-size:16px;font-weight:600;padding:14px 2px 8px;
-  background:transparent;border:0;border-bottom:2px solid var(--tinta);color:var(--tinta)}
+.sec-tit{display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  font-family:var(--display);font-size:16px;font-weight:500;letter-spacing:.01em;
+  padding:15px 4px;background:transparent;border:0;
+  border-bottom:1px solid var(--linea);color:var(--tinta);transition:border-color .15s}
 .sec-tit:hover{background:var(--papel)}
-.sec-tit .chev{font-size:12px;color:var(--tinta-3);width:12px;flex:0 0 auto}
+.sec-tit:last-of-type{border-bottom:0}
+.sec-tit .chev{font-size:10px;color:var(--tinta-3);width:10px;flex:0 0 auto;
+  transition:transform .15s ease;transform-origin:50% 50%}
+.sec-tit[aria-expanded="true"]{border-bottom-color:var(--tinta);font-weight:600}
+.sec-tit[aria-expanded="true"] .chev{transform:rotate(90deg);color:var(--tinta)}
 .sec-tit .sec-nom{flex:1;min-width:0}
-.sec-tit .sec-cont{font-size:13px;font-weight:500;color:var(--tinta-3);
-  font-variant-numeric:tabular-nums;flex:0 0 auto}
+.sec-tit .sec-cont{font-size:12px;font-weight:500;color:var(--tinta-3);
+  font-variant-numeric:tabular-nums;flex:0 0 auto;
+  background:var(--papel);border-radius:20px;padding:3px 9px}
+.sec-tit .sec-cont.completo{background:var(--tinta);color:#fff}
+.sec-cuerpo{padding:2px 4px 14px;border-bottom:1px solid var(--linea)}
 .mas-nota{background:transparent;border:0;color:var(--tinta-2);font-size:13px;
   padding:6px 0 0;text-decoration:underline}
 .crit{padding:10px 0;border-bottom:1px solid var(--linea)}
@@ -151,7 +159,7 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 //  CONFIGURACIÓN — los mismos dos valores que en index.html
 // ---------------------------------------------------------------------
 const SUPABASE_URL  = "https://qubqlsxkvilyzqjlizsn.supabase.co";
-const SUPABASE_ANON = "sb_publishable_cNbBJ7D8tszAkI6EY9Jvqw_jkJckNBk";
+const SUPABASE_ANON = "PEGA-AQUI-TU-CLAVE-sb_publishable_...";
 const NOMBRE_CLUB   = "Celta Baloncesto";
 // ---------------------------------------------------------------------
 
@@ -400,7 +408,8 @@ async function vistaFicha(obsId, entNom, atras) {
     <button type="button" class="sec-tit" data-sec="${si}" aria-expanded="false" aria-controls="sec-${si}">
       <span class="chev" aria-hidden="true">▸</span>
       <span class="sec-nom">${esc(s.nombre)}</span>
-      <span class="sec-cont" id="sc-${si}">${cuenta(s)}/${s.items.length}</span>
+      <span class="sec-cont${cuenta(s) === s.items.length ? " completo" : ""}"
+        id="sc-${si}">${cuenta(s)}/${s.items.length}</span>
     </button>
     <div class="sec-cuerpo" id="sec-${si}" hidden>
     ${s.items.map(c => `
@@ -472,7 +481,6 @@ async function vistaFicha(obsId, entNom, atras) {
       const abierto = !caja.hidden;
       caja.hidden = abierto;
       b.setAttribute("aria-expanded", String(!abierto));
-      b.querySelector(".chev").textContent = abierto ? "▸" : "▾";
     };
   });
 
@@ -493,8 +501,9 @@ async function vistaFicha(obsId, entNom, atras) {
       const c = catalogo.flatMap(s => s.items).find(x => x.id === id);
       document.getElementById("d-" + id).innerHTML = descripcion(c, v);
       document.getElementById("cont").textContent = hechos();
-      const si = critSec[id], sec = catalogo[si];
-      document.getElementById("sc-" + si).textContent = cuenta(sec) + "/" + sec.items.length;
+      const si = critSec[id], sec = catalogo[si], marca = document.getElementById("sc-" + si);
+      marca.textContent = cuenta(sec) + "/" + sec.items.length;
+      marca.classList.toggle("completo", cuenta(sec) === sec.items.length);
     };
   });
 

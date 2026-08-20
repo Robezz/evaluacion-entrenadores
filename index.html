@@ -6,121 +6,154 @@
 <meta name="theme-color" content="#16202B">
 <link rel="icon" href="icono.png">
 <link rel="apple-touch-icon" href="icono.png">
-<meta name="apple-mobile-web-app-title" content="Celta · Observación">
-<title>Observación de entrenadores</title>
+<meta name="apple-mobile-web-app-title" content="Celta · Evaluación">
+<title>Evaluación de jugadoras</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --tinta:#16202B; --celeste:#7EA9E1; --tinta-2:#4A5765; --tinta-3:#8794A3;
-  --papel:#EFF1F4; --blanco:#FFFFFF; --linea:#D9DEE5; --linea-fuerte:#B6BFCB;
-  --n4:#2F6FBF; --n3:#17876A; --n2:#C98314; --n1:#C4562B; --alerta:#B3261E;
-  --r:10px; --display:"Barlow Semi Condensed",system-ui,sans-serif;
+  --tinta:#16202B;
+  --celeste:#7EA9E1;
+  --tinta-2:#4A5765;
+  --tinta-3:#8794A3;
+  --papel:#EFF1F4;
+  --blanco:#FFFFFF;
+  --linea:#D9DEE5;
+  --linea-fuerte:#B6BFCB;
+  --n4:#2F6FBF;
+  --n3:#17876A;
+  --n2:#C98314;
+  --n1:#C4562B;
+  --alerta:#B3261E;
+  --r:10px;
+  --display:"Barlow Semi Condensed",system-ui,sans-serif;
   --texto:"Inter",system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:var(--papel);color:var(--tinta);font-family:var(--texto);font-size:15px;
-  line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
-h1,h2,h3{font-family:var(--display);font-weight:600;margin:0}
-h1{font-size:19px} h2{font-size:20px}
+body{
+  background:var(--papel);color:var(--tinta);
+  font-family:var(--texto);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.01em;margin:0}
+h1{font-size:26px}
+h2{font-size:20px}
 h3{font-size:15px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--tinta-2)}
 button{font-family:inherit;font-size:14px;cursor:pointer}
 input,select,textarea{font-family:inherit;font-size:16px;width:100%;padding:10px 12px;
   border:1px solid var(--linea-fuerte);border-radius:var(--r);background:var(--blanco);color:var(--tinta)}
-textarea{min-height:70px;resize:vertical}
+textarea{min-height:72px;resize:vertical;line-height:1.55}
+input:focus,select,textarea:focus,button:focus-visible{outline:2px solid var(--n4);outline-offset:1px}
 label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0 0 5px}
 
 .envoltorio{max-width:820px;margin:0 auto;padding:0 16px 48px}
 .barra{background:var(--tinta);color:#fff;position:sticky;top:0;z-index:20;border-bottom:4px solid var(--celeste)}
-.barra .envoltorio{display:flex;align-items:center;gap:12px;padding:12px 16px}
 .barra img{height:30px;width:30px;flex:0 0 auto;border-radius:6px}
-.barra h1{color:#fff;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra .envoltorio{display:flex;align-items:center;gap:12px;padding-top:12px;padding-bottom:12px}
+.barra h1{color:#fff;font-size:19px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .barra button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;
   border-radius:var(--r);padding:7px 12px;white-space:nowrap}
+.barra button:hover{background:rgba(255,255,255,.12)}
 
 .tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:18px;margin:16px 0}
-.btn{background:var(--tinta);color:#fff;border:1px solid var(--tinta);border-radius:var(--r);padding:11px 18px;font-weight:500}
+.btn{background:var(--tinta);color:#fff;border:1px solid var(--tinta);border-radius:var(--r);
+  padding:11px 18px;font-weight:500}
+.btn:hover{background:#22303F}
 .btn.suave{background:transparent;color:var(--tinta);border-color:var(--linea-fuerte)}
+.btn.suave:hover{background:var(--papel)}
 .btn:disabled{opacity:.5;cursor:default}
 .fila-btn{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.fila-btn .btn{flex:1;min-width:140px}
 
 .lista{list-style:none;margin:0;padding:0}
 .lista li{border-bottom:1px solid var(--linea)}
 .lista li:last-child{border-bottom:0}
 .lista button{width:100%;text-align:left;background:transparent;border:0;padding:14px 4px;
   display:flex;align-items:center;gap:12px;font-size:15px;color:var(--tinta)}
+.lista button:hover{background:var(--papel)}
 .lista .meta{margin-left:auto;font-size:13px;color:var(--tinta-3);white-space:nowrap}
-.vacio{text-align:center;padding:26px 12px;color:var(--tinta-2)}
-.error{background:#FBE9E7;border:1px solid #E8B4AE;color:var(--alerta);border-radius:var(--r);
-  padding:11px 14px;margin:14px 0;font-size:14px}
+.dorsal{width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:var(--papel);
+  display:flex;align-items:center;justify-content:center;font-family:var(--display);
+  font-weight:600;font-size:14px;color:var(--tinta-2)}
+
+.vacio{text-align:center;padding:28px 12px;color:var(--tinta-2)}
+.error{background:#FBE9E7;border:1px solid #E8B4AE;color:var(--alerta);
+  border-radius:var(--r);padding:11px 14px;margin:14px 0;font-size:14px}
 .aviso{font-size:13px;color:var(--tinta-2);margin:6px 0 0}
 
-.sec-tit{font-family:var(--display);font-size:16px;font-weight:600;padding:18px 0 6px;
-  border-bottom:2px solid var(--tinta);margin-bottom:2px}
-.crit{padding:10px 0;border-bottom:1px solid var(--linea)}
-.crit-cab{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.crit-cab span{font-size:14px;line-height:1.3}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;padding:12px 0;font-size:12px;color:var(--tinta-2)}
+.punto{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
+
+.bloque-tit{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.02em;
+  padding:16px 0 6px;border-bottom:2px solid var(--tinta);margin-bottom:2px}
+.ind{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--linea)}
+.ind span{font-size:14px;line-height:1.3;flex:1;min-width:0}
+.ind span em{display:block;font-style:normal;font-size:12px;color:var(--tinta-3);
+  line-height:1.3;margin-top:2px}
 .niveles{display:flex;gap:7px;flex:0 0 auto}
 .niveles button{width:30px;height:30px;padding:0;border-radius:50%;
   border:1.5px solid var(--linea-fuerte);background:transparent}
+.niveles button[aria-pressed="true"]{border-width:2px}
 .niveles button[aria-pressed="true"][data-v="4"]{background:var(--n4);border-color:var(--n4)}
 .niveles button[aria-pressed="true"][data-v="3"]{background:var(--n3);border-color:var(--n3)}
 .niveles button[aria-pressed="true"][data-v="2"]{background:var(--n2);border-color:var(--n2)}
 .niveles button[aria-pressed="true"][data-v="1"]{background:var(--n1);border-color:var(--n1)}
 .niveles button[aria-pressed="true"][data-v="0"]{border-color:var(--tinta);border-width:3px}
-.desc{font-size:13px;color:var(--tinta-2);background:var(--papel);border-radius:var(--r);
-  padding:8px 10px;margin-top:8px}
-.desc b{color:var(--tinta);font-weight:500}
-.crit textarea{margin-top:8px;min-height:52px;font-size:14px}
 
-.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;padding:12px 0;font-size:12px;color:var(--tinta-2)}
-.punto{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
-.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--linea)}
-.chk input{width:20px;height:20px;flex:0 0 auto;margin-top:2px}
-.chk label{margin:0;font-size:14px;font-weight:400;color:var(--tinta)}
-.estado{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
-  padding:3px 8px;border-radius:20px;border:1px solid var(--linea-fuerte);color:var(--tinta-2)}
-.estado.cerrada{background:var(--tinta);border-color:var(--tinta);color:#fff}
-.pie-fijo{position:sticky;bottom:0;background:var(--papel);border-top:1px solid var(--linea);
-  padding:12px 0;margin-top:8px}
+.contador{font-family:var(--display);font-size:15px;font-weight:600;color:#fff;opacity:.85}
+.campos{margin-top:22px}
+.campo-ext{background:var(--papel);border:1px solid var(--linea-fuerte);
+  border-radius:12px;padding:14px;margin-bottom:18px}
+.campo-ext label{margin-bottom:2px}
+.campo-ext .pista{font-size:12px;color:var(--tinta-3);line-height:1.35;margin:0 0 8px}
+.campo-ext textarea{background:var(--blanco)}
+.campos > div{margin-bottom:16px}
+.pie-fijo{position:sticky;bottom:0;background:var(--papel);
+  border-top:1px solid var(--linea);padding:12px 0;margin-top:8px}
 .pie-fijo .fila-btn{margin-top:0}
+
+.estado{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.04em;
+  text-transform:uppercase;padding:3px 8px;border-radius:20px;border:1px solid var(--linea-fuerte);color:var(--tinta-2)}
+.estado.cerrada{background:var(--tinta);border-color:var(--tinta);color:#fff}
 
 /* ---- Informe ---- */
 .informe{background:#fff;padding:26px 30px;border:1px solid var(--linea);border-radius:4px;font-size:12px;line-height:1.5}
-.informe .cab{display:flex;justify-content:space-between;gap:16px;border-bottom:1.5px solid var(--tinta);
-  padding-bottom:9px;flex-wrap:wrap}
+.informe .escudo{width:34px;height:34px;flex:0 0 auto;border-radius:4px}
+.informe .cab{display:flex;justify-content:space-between;gap:16px;
+  border-bottom:1.5px solid var(--tinta);padding-bottom:9px;flex-wrap:wrap}
 .informe .cab p{margin:0}
 .informe .nom{font-family:var(--display);font-size:19px;font-weight:600}
-.informe .escudo{width:34px;height:34px;flex:0 0 auto;border-radius:4px}
-.informe .banda{border:1.5px solid var(--alerta);color:var(--alerta);border-radius:6px;
-  padding:10px 12px;margin-top:12px}
-.informe .banda p{margin:0 0 4px;font-weight:600}
-.informe .banda ul{margin:0;padding-left:18px}
 .informe .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 26px;margin-top:14px}
-.informe .bt{font-weight:600;border-bottom:.5px solid var(--linea-fuerte);padding-bottom:3px;margin:13px 0 4px;
-  display:flex;justify-content:space-between;gap:10px}
+.informe .bt{font-weight:600;border-bottom:.5px solid var(--linea-fuerte);
+  padding-bottom:3px;margin:13px 0 4px}
 .informe .cols > div > .bt:first-child{margin-top:0}
 .informe .ln{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
 .informe .ln em{font-style:normal;color:var(--tinta-2)}
 .informe .no{color:var(--tinta-3)}
-.informe .descr{color:var(--tinta-3);padding:0 0 2px 10px;font-size:10.5px;line-height:1.35}
-.informe .nota{color:var(--tinta-2);padding:0 0 3px 10px;font-size:11px}
-.informe .ln,.informe .descr,.informe .nota{break-inside:avoid}
-.informe .bt{break-after:avoid}
+.informe .sube{color:var(--n3);font-weight:600}
+.informe .baja{color:var(--n1);font-weight:600}
 .informe .texto{margin:0;color:#33404E;white-space:pre-wrap}
+.informe .externa{background:#F1F3F6;border-radius:5px;padding:9px 11px;margin-top:12px}
+.informe .externa .bt{margin-top:0;border-bottom:0;padding-bottom:2px}
 .informe .pie{margin-top:16px;padding-top:6px;border-top:.5px solid var(--linea-fuerte);
   display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:var(--tinta-3);flex-wrap:wrap}
 
-@media (max-width:560px){ .informe{padding:18px} .informe .cols{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:560px){
+  .informe{padding:18px}
+  .informe .cols{grid-template-columns:minmax(0,1fr)}
+}
 @media print{
   body{background:#fff}
   .barra,.no-print{display:none !important}
   .envoltorio{max-width:none;padding:0}
   .informe{border:0;padding:0;font-size:10.5pt}
   .informe .cols{grid-template-columns:1fr 1fr;gap:0 22px}
-  .informe .escudo,.informe .banda{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .informe .escudo,.informe .externa{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .informe .externa{break-inside:avoid}
   @page{size:A4;margin:14mm}
 }
 </style>
@@ -130,7 +163,7 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 <div class="barra no-print">
   <div class="envoltorio">
     <img src="icono.png" alt="">
-    <h1 id="titulo">Observación de entrenadores</h1>
+    <h1 id="titulo">Evaluación de jugadoras</h1>
     <button id="atras" hidden>Atrás</button>
     <button id="salir" hidden>Salir</button>
   </div>
@@ -140,7 +173,9 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 
 <script type="module">
 // ---------------------------------------------------------------------
-//  CONFIGURACIÓN — los mismos dos valores que en index.html
+//  CONFIGURACIÓN — pega aquí los dos datos de tu proyecto de Supabase
+//  (Project Settings → API). La clave anon es pública: son las políticas
+//  de la base de datos las que protegen los datos, no esta clave.
 // ---------------------------------------------------------------------
 const SUPABASE_URL  = "https://qubqlsxkvilyzqjlizsn.supabase.co";
 const SUPABASE_ANON = "sb_publishable_cNbBJ7D8tszAkI6EY9Jvqw_jkJckNBk";
@@ -157,8 +192,8 @@ const btSalir = document.getElementById("salir");
 
 const NIVELES = [
   { v: 4, t: "Excelente",      c: "var(--n4)" },
-  { v: 3, t: "Bueno",          c: "var(--n3)" },
-  { v: 2, t: "Mejorable",      c: "var(--n2)" },
+  { v: 3, t: "Consolidado",    c: "var(--n3)" },
+  { v: 2, t: "En desarrollo",  c: "var(--n2)" },
   { v: 1, t: "Necesita apoyo", c: "var(--n1)" },
   { v: 0, t: "No observado",   c: null }
 ];
@@ -172,7 +207,7 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fecha = f => f ? new Date(f + "T00:00:00").toLocaleDateString("es-ES") : "";
 
-let sesion = null, perfil = null, catalogo = null, alertas = null, volver = null;
+let sesion = null, perfil = null, indicadores = null, volver = null;
 
 function pinta(html, titulo, atras) {
   app.innerHTML = html;
@@ -183,16 +218,15 @@ function pinta(html, titulo, atras) {
   window.scrollTo(0, 0);
 }
 function fallo(e) {
+  const msg = e?.message || String(e);
   const p = document.createElement("p");
   p.className = "error";
-  p.textContent = "No se pudo completar la operación: " + (e?.message || e);
+  p.textContent = "No se pudo completar la operación: " + msg;
   app.prepend(p);
   p.scrollIntoView({ block: "nearest" });
 }
 btAtras.onclick = () => volver && volver();
 btSalir.onclick = async () => { await sb.auth.signOut(); sesion = perfil = null; vistaLogin(); };
-
-const esCoord = () => perfil && (perfil.rol === "admin" || perfil.rol === "coordinacion");
 
 // ------------------------------ acceso -------------------------------
 
@@ -200,13 +234,13 @@ function vistaLogin() {
   pinta(`
     <div class="tarjeta" style="margin-top:32px">
       <h2>Entrar</h2>
-      <p class="aviso">Con las mismas credenciales que la herramienta de jugadoras.</p>
+      <p class="aviso">Usa el correo con el que el club te dio de alta.</p>
       <div style="margin-top:16px"><label for="em">Correo</label>
         <input id="em" type="email" autocomplete="username" inputmode="email"></div>
       <div style="margin-top:12px"><label for="pw">Contraseña</label>
         <input id="pw" type="password" autocomplete="current-password"></div>
       <div class="fila-btn"><button class="btn" id="entrar">Entrar</button></div>
-    </div>`, NOMBRE_CLUB);
+    </div>`, NOMBRE_CLUB + " · evaluación");
 
   const entrar = async () => {
     const b = document.getElementById("entrar");
@@ -216,7 +250,12 @@ function vistaLogin() {
       password: document.getElementById("pw").value
     });
     b.disabled = false;
-    if (error) return fallo(error);
+    if (error) {
+      const m = (error.message || "").toLowerCase();
+      if (m.includes("invalid login")) return fallo(new Error("correo o contraseña incorrectos."));
+      if (m.includes("not confirmed")) return fallo(new Error("este usuario está sin confirmar. Actívalo en Supabase."));
+      return fallo(error);
+    }
     arrancar();
   };
   document.getElementById("entrar").onclick = entrar;
@@ -227,266 +266,317 @@ async function arrancar() {
   const { data } = await sb.auth.getSession();
   sesion = data.session;
   if (!sesion) return vistaLogin();
+
   const { data: p, error } = await sb.from("perfiles")
     .select("id,nombre,rol").eq("id", sesion.user.id).maybeSingle();
   if (error) { pinta("", NOMBRE_CLUB); return fallo(error); }
-  if (!p) { pinta(`<div class="tarjeta vacio">Tu usuario todavía no tiene perfil en el club.</div>`, NOMBRE_CLUB); return; }
+  if (!p) { pinta(`<div class="tarjeta vacio">Tu usuario todavía no tiene perfil en el club.
+    Pide a la coordinación que lo active.</div>`, NOMBRE_CLUB); return; }
   perfil = p;
-  if (!esCoord()) {
-    pinta(`<div class="tarjeta vacio">Esta herramienta es de uso exclusivo de la coordinación.</div>`, NOMBRE_CLUB);
-    return;
-  }
-  vistaEntrenadores();
+  vistaEquipos();
 }
 
-// --------------------------- listado inicial -------------------------
+const esAdmin = () => perfil && (perfil.rol === "admin" || perfil.rol === "coordinacion");
 
-async function vistaEntrenadores() {
-  pinta(`<div class="tarjeta vacio">Cargando…</div>`, "Entrenadores");
-  const { data, error } = await sb.from("ent_entrenadores")
-    .select("id,nombre,categoria").eq("activo", true).order("nombre");
-  if (error) { pinta("", "Entrenadores"); return fallo(error); }
+// ------------------------------ equipos ------------------------------
+
+async function vistaEquipos() {
+  pinta(`<div class="tarjeta vacio">Cargando equipos…</div>`, NOMBRE_CLUB + " · equipos");
+  const { data, error } = await sb.from("equipos")
+    .select("id,nombre,categoria,temporadas(nombre)").order("nombre");
+  if (error) { pinta("", NOMBRE_CLUB); return fallo(error); }
+
+  const filas = (data || []).map(e => `
+    <li><button data-eq="${e.id}" data-nom="${esc(e.nombre)}">
+      <span>${esc(e.nombre)}</span>
+      <span class="meta">${esc(e.temporadas?.nombre || "")}</span>
+    </button></li>`).join("");
 
   pinta(`
     <div class="tarjeta">
-      <h2>Entrenadores</h2>
-      ${data?.length ? `<ul class="lista" style="margin-top:10px">${data.map(g => `
-        <li><button data-e="${g.id}" data-n="${esc(g.nombre)}">
-          <span>${esc(g.nombre)}</span><span class="meta">${esc(g.categoria || "")}</span>
-        </button></li>`).join("")}</ul>`
-        : `<div class="vacio">Todavía no hay entrenadores dados de alta.</div>`}
+      <h2>Tus equipos</h2>
+      ${data?.length ? `<ul class="lista" style="margin-top:10px">${filas}</ul>`
+        : `<div class="vacio">Todavía no tienes ningún equipo asignado.</div>`}
     </div>
-    <div class="tarjeta">
-      <h3>Añadir entrenador</h3>
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:12px">
-        <div><label for="nn">Nombre y apellidos</label><input id="nn"></div>
-        <div><label for="nc">Categoría</label><input id="nc" placeholder="Alevín"></div>
-      </div>
-      <div class="fila-btn"><button class="btn suave" id="alta" style="flex:0 0 auto">Añadir</button></div>
-    </div>`, "Entrenadores");
+    <div class="fila-btn">
+      ${esAdmin() ? `<button class="btn suave" id="admin">Administración del club</button>` : ""}
+      <button class="btn suave" id="clave">Cambiar mi contraseña</button>
+    </div>
+  `, NOMBRE_CLUB + " · equipos");
 
-  app.querySelectorAll("[data-e]").forEach(b =>
-    b.onclick = () => vistaHistorial(+b.dataset.e, b.dataset.n));
+  app.querySelectorAll("[data-eq]").forEach(b =>
+    b.onclick = () => vistaJugadoras(+b.dataset.eq, b.dataset.nom));
+  const a = document.getElementById("admin");
+  if (a) a.onclick = vistaAdmin;
 
-  document.getElementById("alta").onclick = async () => {
-    const nombre = document.getElementById("nn").value.trim();
-    if (!nombre) return fallo(new Error("escribe el nombre."));
-    const { error } = await sb.from("ent_entrenadores").insert({
-      nombre, categoria: document.getElementById("nc").value.trim() || null });
+  document.getElementById("clave").onclick = async () => {
+    const nueva = prompt("Escribe tu nueva contraseña (mínimo 6 caracteres)");
+    if (nueva === null) return;
+    if (nueva.trim().length < 6) return fallo(new Error("la contraseña es demasiado corta."));
+    const { error } = await sb.auth.updateUser({ password: nueva.trim() });
     if (error) return fallo(error);
-    vistaEntrenadores();
+    alert("Contraseña cambiada. La próxima vez entra con la nueva.");
   };
 }
 
-async function vistaHistorial(entId, entNom) {
-  const atras = vistaEntrenadores;
-  pinta(`<div class="tarjeta vacio">Cargando…</div>`, entNom, atras);
-  const { data, error } = await sb.from("observaciones")
-    .select("id,fecha,periodo,categoria,estado,temporada_id,temporadas(nombre)")
-    .eq("entrenador_id", entId).order("fecha", { ascending: false });
-  if (error) { pinta("", entNom); return fallo(error); }
+// ----------------------------- jugadoras -----------------------------
+
+async function vistaJugadoras(eqId, eqNom) {
+  pinta(`<div class="tarjeta vacio">Cargando…</div>`, eqNom, vistaEquipos);
+  const { data, error } = await sb.from("jugadoras")
+    .select("id,nombre,apellidos,dorsal,activa").eq("equipo_id", eqId)
+    .eq("activa", true).order("nombre");
+  if (error) return fallo(error);
+
+  const filas = (data || []).map(j => `
+    <li><button data-j="${j.id}">
+      <span class="dorsal">${j.dorsal ?? "–"}</span>
+      <span>${esc(j.nombre)} ${esc(j.apellidos || "")}</span>
+    </button></li>`).join("");
+
+  pinta(`
+    <div class="tarjeta">
+      <h2>${esc(eqNom)}</h2>
+      ${data?.length ? `<ul class="lista" style="margin-top:10px">${filas}</ul>`
+        : `<div class="vacio">Aún no hay jugadoras en este equipo.</div>`}
+    </div>
+    <div class="tarjeta">
+      <h3>Añadir jugadora</h3>
+      <div style="display:grid;grid-template-columns:2fr 2fr 1fr;gap:10px;margin-top:12px">
+        <div><label for="jn">Nombre</label><input id="jn"></div>
+        <div><label for="ja">Apellidos</label><input id="ja"></div>
+        <div><label for="jd">Dorsal</label><input id="jd" type="number" inputmode="numeric"></div>
+      </div>
+      <div style="margin-top:10px;max-width:180px">
+        <label for="jy">Año de nacimiento</label><input id="jy" type="number" inputmode="numeric" placeholder="2013">
+      </div>
+      <div class="fila-btn"><button class="btn suave" id="alta" style="flex:0 0 auto">Añadir al equipo</button></div>
+    </div>
+  `, eqNom, vistaEquipos);
+
+  app.querySelectorAll("[data-j]").forEach(b =>
+    b.onclick = () => vistaJugadora(+b.dataset.j, eqId, eqNom));
+
+  document.getElementById("alta").onclick = async () => {
+    const nombre = document.getElementById("jn").value.trim();
+    if (!nombre) return fallo(new Error("escribe al menos el nombre."));
+    const { error } = await sb.from("jugadoras").insert({
+      equipo_id: eqId, nombre,
+      apellidos: document.getElementById("ja").value.trim() || null,
+      dorsal: +document.getElementById("jd").value || null,
+      anio_nacimiento: +document.getElementById("jy").value || null
+    });
+    if (error) return fallo(error);
+    vistaJugadoras(eqId, eqNom);
+  };
+}
+
+async function vistaJugadora(jId, eqId, eqNom) {
+  pinta(`<div class="tarjeta vacio">Cargando…</div>`, "Jugadora", () => vistaJugadoras(eqId, eqNom));
+  const [{ data: j }, { data: evs, error }] = await Promise.all([
+    sb.from("jugadoras")
+      .select("nombre,apellidos,dorsal,anio_nacimiento,equipos(temporada_id,temporadas(nombre))")
+      .eq("id", jId).single(),
+    sb.from("evaluaciones").select("id,fecha,periodo,estado,temporada_id,temporadas(nombre)")
+      .eq("jugadora_id", jId).order("fecha", { ascending: false })
+  ]);
+  if (error) return fallo(error);
+
+  const tempId  = j?.equipos?.temporada_id ?? null;
+  const tempNom = j?.equipos?.temporadas?.nombre || "";
+
+  const nom = `${j?.nombre || ""} ${j?.apellidos || ""}`.trim();
 
   const grupos = {};
-  (data || []).forEach(o => {
-    const k = o.temporadas?.nombre || "Sin temporada";
-    (grupos[k] = grupos[k] || []).push(o);
+  (evs || []).forEach(e => {
+    const k = e.temporadas?.nombre || "Sin temporada";
+    (grupos[k] = grupos[k] || []).push(e);
   });
+
   const historial = Object.keys(grupos).sort().reverse().map(k => `
     <p style="font-family:var(--display);font-weight:600;font-size:15px;
        margin:16px 0 2px;color:var(--tinta-2)">${esc(k)}</p>
-    <ul class="lista">${grupos[k].map(o => `
+    <ul class="lista">${grupos[k].map(e => `
       <li><div style="display:flex;align-items:center;gap:6px">
-        <button data-o="${o.id}" style="flex:1">
-          <span>${esc(o.periodo || "Observación")} · ${fecha(o.fecha)}</span>
-          <span class="meta"><span class="estado ${o.estado}">${o.estado === "cerrada" ? "Cerrada" : "Borrador"}</span></span>
+        <button data-ev="${e.id}" style="flex:1">
+          <span>${esc(e.periodo || "Evaluación")} · ${fecha(e.fecha)}</span>
+          <span class="meta"><span class="estado ${e.estado}">${e.estado === "cerrada" ? "Cerrada" : "Borrador"}</span></span>
         </button>
-        <button class="btn suave" data-del="${o.id}" style="flex:0 0 auto;padding:7px 11px">Borrar</button>
+        ${esAdmin() ? `<button class="btn suave" data-delev="${e.id}"
+          style="flex:0 0 auto;padding:7px 11px">Borrar</button>` : ""}
       </div></li>`).join("")}</ul>`).join("");
 
   pinta(`
     <div class="tarjeta">
-      <h2>${esc(entNom)}</h2>
+      <h2>${esc(nom)}</h2>
+      <p class="aviso">${esc(eqNom)}${j?.dorsal ? " · dorsal " + j.dorsal : ""}${j?.anio_nacimiento ? " · " + j.anio_nacimiento : ""}${tempNom ? " · temporada " + esc(tempNom) : ""}</p>
       <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:16px">
         <div style="flex:1;min-width:190px"><label for="per">Periodo</label>
-          <select id="per">${PERIODOS.map(p => `<option value="${p.v}">${p.t}</option>`).join("")}</select></div>
-        <button class="btn" id="nueva" style="flex:0 0 auto">Nueva observación</button>
+          <select id="per">${PERIODOS.map(p =>
+            `<option value="${p.v}">${p.t}</option>`).join("")}</select></div>
+        <button class="btn" id="nueva" style="flex:0 0 auto">Nueva evaluación</button>
+      </div>
+      <div class="fila-btn">
+        <button class="btn suave" id="baja" style="flex:0 0 auto">Dar de baja</button>
+        ${esAdmin() ? `<button class="btn suave" id="borrar" style="flex:0 0 auto">Borrar definitivamente</button>` : ""}
       </div>
     </div>
     <div class="tarjeta">
       <h3>Historial</h3>
-      ${data?.length ? historial : `<div class="vacio">Todavía no hay observaciones registradas.</div>`}
-    </div>`, entNom, atras);
+      ${evs?.length ? historial
+        : `<div class="vacio">Todavía no hay ninguna evaluación registrada.</div>`}
+    </div>`, nom, () => vistaJugadoras(eqId, eqNom));
 
-  app.querySelectorAll("[data-o]").forEach(b =>
-    b.onclick = () => vistaInforme(+b.dataset.o, () => vistaHistorial(entId, entNom)));
+  app.querySelectorAll("[data-ev]").forEach(b =>
+    b.onclick = () => vistaInforme(+b.dataset.ev, () => vistaJugadora(jId, eqId, eqNom)));
 
-  app.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
-    if (!confirm("Se borrará esta observación por completo. No se puede deshacer. ¿Continuar?")) return;
-    const { error } = await sb.from("observaciones").delete().eq("id", +b.dataset.del);
+  app.querySelectorAll("[data-delev]").forEach(b => b.onclick = async () => {
+    if (!confirm("Se borrará esta evaluación y todas sus valoraciones. No se puede deshacer. ¿Continuar?")) return;
+    const { error } = await sb.from("evaluaciones").delete().eq("id", +b.dataset.delev);
     if (error) return fallo(error);
-    vistaHistorial(entId, entNom);
+    vistaJugadora(jId, eqId, eqNom);
   });
 
-  const n = document.getElementById("nueva");
-  if (n) n.onclick = async () => {
+  document.getElementById("baja").onclick = async () => {
+    if (!confirm(`${nom} dejará de aparecer en el listado del equipo, pero se conservan todas sus evaluaciones. ¿Darla de baja?`)) return;
+    const { error } = await sb.from("jugadoras").update({ activa: false }).eq("id", jId);
+    if (error) return fallo(error);
+    vistaJugadoras(eqId, eqNom);
+  };
+
+  const bo = document.getElementById("borrar");
+  if (bo) bo.onclick = async () => {
+    const n = (evs || []).length;
+    if (!confirm(`Se borrará a ${nom}${n ? ` y sus ${n} evaluaciones` : ""} de forma permanente. No se puede deshacer.\n\nSi solo quiere dejar el equipo, usa «Dar de baja».\n\n¿Borrar definitivamente?`)) return;
+    const { error } = await sb.from("jugadoras").delete().eq("id", jId);
+    if (error) return fallo(error);
+    vistaJugadoras(eqId, eqNom);
+  };
+
+  document.getElementById("nueva").onclick = async () => {
     const periodo = document.getElementById("per").value;
-    const atrasH = () => vistaHistorial(entId, entNom);
-    const ya = (data || []).find(x => x.periodo === periodo && x.temporadas);
-    if (ya && ya.periodo === periodo) {
-      if (!confirm(`Ya existe una observación «${periodo}» de este entrenador esta temporada. ¿Abrir la que hay?`)) return;
-      return ya.estado === "cerrada" ? vistaInforme(ya.id, atrasH) : vistaFicha(ya.id, entNom, atrasH);
+    const atras = () => vistaJugadora(jId, eqId, eqNom);
+    const ya = (evs || []).find(x => x.periodo === periodo && x.temporada_id === tempId);
+    if (ya) {
+      if (!confirm(`Ya existe una evaluación «${periodo}» de esta jugadora en la temporada ${tempNom}. ¿Abrir la que hay?`)) return;
+      return ya.estado === "cerrada" ? vistaInforme(ya.id, atras) : vistaFicha(ya.id, nom, atras);
     }
-    const { data: o, error } = await sb.from("observaciones")
-      .insert({ entrenador_id: entId, evaluador_id: perfil.id, periodo })
+    const { data, error } = await sb.from("evaluaciones")
+      .insert({ jugadora_id: jId, entrenador_id: perfil.id, periodo })
       .select("id").single();
     if (error) return fallo(error);
-    vistaFicha(o.id, entNom, atrasH);
+    vistaFicha(data.id, nom, atras);
   };
 }
 
 // ------------------------------- ficha -------------------------------
 
-async function cargarCatalogo() {
-  if (catalogo && alertas) return;
-  const [{ data: cr, error: e1 }, { data: al, error: e2 }] = await Promise.all([
-    sb.from("ent_criterios").select("id,nombre,orden,d4,d3,d2,d1,ent_secciones(id,nombre,orden)").eq("activo", true),
-    sb.from("ent_alertas").select("id,nombre,orden").eq("activa", true).order("orden")
-  ]);
-  if (e1 || e2) throw (e1 || e2);
+async function cargarIndicadores() {
+  if (indicadores) return indicadores;
+  const { data, error } = await sb.from("indicadores")
+    .select("id,nombre,orden,ayuda,bloques(id,nombre,orden)").eq("activo", true);
+  if (error) throw error;
   const mapa = new Map();
-  cr.forEach(c => {
-    const s = c.ent_secciones;
-    if (!mapa.has(s.id)) mapa.set(s.id, { nombre: s.nombre, orden: s.orden, items: [] });
-    mapa.get(s.id).items.push(c);
+  data.forEach(i => {
+    const b = i.bloques;
+    if (!mapa.has(b.id)) mapa.set(b.id, { nombre: b.nombre, orden: b.orden, items: [] });
+    mapa.get(b.id).items.push({ id: i.id, nombre: i.nombre, orden: i.orden, ayuda: i.ayuda });
   });
-  catalogo = [...mapa.values()].sort((a, b) => a.orden - b.orden);
-  catalogo.forEach(s => s.items.sort((x, y) => x.orden - y.orden));
-  alertas = al || [];
+  indicadores = [...mapa.values()].sort((a, b) => a.orden - b.orden);
+  indicadores.forEach(b => b.items.sort((x, y) => x.orden - y.orden));
+  return indicadores;
 }
 
-async function vistaFicha(obsId, entNom, atras) {
-  pinta(`<div class="tarjeta vacio">Cargando ficha…</div>`, entNom, atras);
-  try { await cargarCatalogo(); } catch (e) { return fallo(e); }
+async function vistaFicha(evId, nom, atras) {
+  pinta(`<div class="tarjeta vacio">Cargando ficha…</div>`, nom, atras);
+  let bloques;
+  try { bloques = await cargarIndicadores(); } catch (e) { return fallo(e); }
 
-  const [{ data: o, error: e1 }, { data: vals, error: e2 }, { data: als, error: e3 }] = await Promise.all([
-    sb.from("observaciones").select("*").eq("id", obsId).single(),
-    sb.from("obs_valoraciones").select("criterio_id,nivel,nota").eq("observacion_id", obsId),
-    sb.from("obs_alertas").select("alerta_id").eq("observacion_id", obsId)
+  const [{ data: ev, error: e1 }, { data: vals, error: e2 }] = await Promise.all([
+    sb.from("evaluaciones").select("*").eq("id", evId).single(),
+    sb.from("valoraciones").select("indicador_id,nivel").eq("evaluacion_id", evId)
   ]);
-  if (e1 || e2 || e3) return fallo(e1 || e2 || e3);
+  if (e1 || e2) return fallo(e1 || e2);
 
-  const estado = {}, notas = {};
-  (vals || []).forEach(v => { estado[v.criterio_id] = v.nivel; if (v.nota) notas[v.criterio_id] = v.nota; });
-  const marcadas = new Set((als || []).map(a => a.alerta_id));
-  const total = catalogo.reduce((n, s) => n + s.items.length, 0);
+  const estado = {};
+  (vals || []).forEach(v => estado[v.indicador_id] = v.nivel);
+  const total = bloques.reduce((n, b) => n + b.items.length, 0);
   const hechos = () => Object.keys(estado).length;
 
   const leyenda = NIVELES.map(n => `<span><span class="punto" style="${n.c
     ? "background:" + n.c : "border:1.5px solid var(--linea-fuerte)"}"></span>${n.t}</span>`).join("");
 
-  const cuerpo = catalogo.map(s => `
-    <div class="sec-tit">${esc(s.nombre)}</div>
-    ${s.items.map(c => `
-      <div class="crit">
-        <div class="crit-cab">
-          <span>${esc(c.nombre)}</span>
-          <div class="niveles" role="group" aria-label="${esc(c.nombre)}">
-            ${NIVELES.map(n => `<button type="button" data-c="${c.id}" data-v="${n.v}"
-              aria-label="${n.t}" title="${n.t}"
-              aria-pressed="${(estado[c.id] ?? 0) === n.v ? "true" : "false"}"></button>`).join("")}
-          </div>
+  const cuerpo = bloques.map(b => `
+    <div class="bloque-tit">${esc(b.nombre)}</div>
+    ${b.items.map(i => `
+      <div class="ind">
+        <span>${esc(i.nombre)}${i.ayuda ? `<em>${esc(i.ayuda)}</em>` : ""}</span>
+        <div class="niveles" role="group" aria-label="${esc(i.nombre)}">
+          ${NIVELES.map(n => `<button type="button" data-i="${i.id}" data-v="${n.v}"
+            aria-label="${n.t}" title="${n.t}"
+            aria-pressed="${(estado[i.id] ?? 0) === n.v ? "true" : "false"}"></button>`).join("")}
         </div>
-        <div class="desc" id="d-${c.id}">${descripcion(c, estado[c.id])}</div>
-        <textarea id="n-${c.id}" placeholder="Observación (opcional)">${esc(notas[c.id] || "")}</textarea>
       </div>`).join("")}`).join("");
+
+  const campo = (id, etq, val) =>
+    `<div><label for="${id}">${etq}</label><textarea id="${id}">${esc(val || "")}</textarea></div>`;
 
   pinta(`
     <div class="tarjeta">
-      <h2>${esc(entNom)}</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
-        <div><label for="f">Fecha</label><input id="f" type="date" value="${o.fecha || ""}"></div>
-        <div><label for="cat">Categoría</label><input id="cat" value="${esc(o.categoria || "")}"></div>
-      </div>
-      <p class="aviso"><span id="cont">${hechos()}</span> de ${total} criterios valorados.
-        Deja «No observado» lo que no salió en el entrenamiento: no penaliza en el resultado.</p>
+      <h2>${esc(nom)}</h2>
+      <p class="aviso">${esc(ev.periodo || "Evaluación")} · ${fecha(ev.fecha)}
+        · <span id="cont">${hechos()}/${total}</span> indicadores</p>
       <div class="leyenda">${leyenda}</div>
       ${cuerpo}
+      <div class="campos">
+        <div class="campo-ext">
+          <label for="f_ce">Desempeño competitivo externo</label>
+          <p class="pista">Selecciones, convocatorias con una categoría superior u otras
+            competiciones fuera del equipo. Déjalo vacío si no procede.</p>
+          <textarea id="f_ce">${esc(ev.competicion_externa || "")}</textarea>
+        </div>
+        ${campo("f_dp", "Desarrollo personal", ev.desarrollo_personal)}
+        ${campo("f_en", "Entrenabilidad", ev.entrenabilidad)}
+        ${campo("f_fo", "Fortalezas", ev.fortalezas)}
+        ${campo("f_ob", "Objetivos de mejora", ev.objetivos_mejora)}
+        ${campo("f_no", "Observaciones del entrenador", ev.observaciones)}
+      </div>
     </div>
-
-    <div class="tarjeta">
-      <h3>Indicadores de alerta</h3>
-      <p class="aviso">Si marcas alguno, requiere intervención inmediata del mentor,
-        con independencia del resto de la valoración.</p>
-      <div style="margin-top:10px">${alertas.map(a => `
-        <div class="chk">
-          <input type="checkbox" id="a-${a.id}" ${marcadas.has(a.id) ? "checked" : ""}>
-          <label for="a-${a.id}">${esc(a.nombre)}</label>
-        </div>`).join("")}</div>
-    </div>
-
-    <div class="tarjeta">
-      <h3>Conclusiones</h3>
-      <div style="margin-top:12px"><label for="t1">Fortalezas observadas</label>
-        <textarea id="t1">${esc(o.fortalezas || "")}</textarea></div>
-      <div style="margin-top:12px"><label for="t2">Áreas de mejora prioritarias</label>
-        <textarea id="t2">${esc(o.areas_mejora || "")}</textarea></div>
-      <div style="margin-top:12px"><label for="t3">Recomendaciones específicas</label>
-        <textarea id="t3">${esc(o.recomendaciones || "")}</textarea></div>
-      <div style="margin-top:12px"><label for="t4">Objetivos a trabajar</label>
-        <textarea id="t4">${esc(o.objetivos || "")}</textarea></div>
-      <div style="margin-top:12px;max-width:220px"><label for="pf">Próxima observación</label>
-        <input id="pf" type="date" value="${o.proxima_fecha || ""}"></div>
-    </div>
-
     <div class="pie-fijo">
       <div class="fila-btn">
-        <button class="btn suave" id="borrador" style="flex:1">Guardar borrador</button>
-        <button class="btn" id="cerrar" style="flex:1">Cerrar observación</button>
+        <button class="btn suave" id="borrador">Guardar borrador</button>
+        <button class="btn" id="cerrar">Cerrar ficha</button>
       </div>
-    </div>`, entNom, atras);
+    </div>`, nom, atras);
 
   app.querySelectorAll(".niveles button").forEach(b => {
     b.onclick = () => {
-      const id = +b.dataset.c, v = +b.dataset.v;
-      estado[id] = v;
-      b.parentElement.querySelectorAll("button").forEach(o2 =>
-        o2.setAttribute("aria-pressed", o2 === b ? "true" : "false"));
-      const c = catalogo.flatMap(s => s.items).find(x => x.id === id);
-      document.getElementById("d-" + id).innerHTML = descripcion(c, v);
-      document.getElementById("cont").textContent = hechos();
+      const i = +b.dataset.i, v = +b.dataset.v;
+      estado[i] = v;
+      b.parentElement.querySelectorAll("button").forEach(o =>
+        o.setAttribute("aria-pressed", o === b ? "true" : "false"));
+      document.getElementById("cont").textContent = hechos() + "/" + total;
     };
   });
 
   async function guardar(cerrando) {
-    const filas = Object.entries(estado).map(([id, v]) => ({
-      observacion_id: obsId, criterio_id: +id,
-      nivel: v > 0 ? v : null,
-      nota: (document.getElementById("n-" + id)?.value || "").trim() || null
-    }));
-    if (filas.length) {
-      const { error } = await sb.from("obs_valoraciones")
-        .upsert(filas, { onConflict: "observacion_id,criterio_id" });
-      if (error) throw error;
-    }
-    const { error: eDel } = await sb.from("obs_alertas").delete().eq("observacion_id", obsId);
-    if (eDel) throw eDel;
-    const nuevas = alertas.filter(a => document.getElementById("a-" + a.id).checked)
-      .map(a => ({ observacion_id: obsId, alerta_id: a.id }));
-    if (nuevas.length) {
-      const { error } = await sb.from("obs_alertas").insert(nuevas);
-      if (error) throw error;
-    }
+    const filas = Object.entries(estado).map(([id, v]) =>
+      ({ evaluacion_id: evId, indicador_id: +id, nivel: v > 0 ? v : null }));
     const campos = {
-      fecha:           document.getElementById("f").value || null,
-      categoria:       document.getElementById("cat").value.trim() || null,
-      fortalezas:      document.getElementById("t1").value.trim() || null,
-      areas_mejora:    document.getElementById("t2").value.trim() || null,
-      recomendaciones: document.getElementById("t3").value.trim() || null,
-      objetivos:       document.getElementById("t4").value.trim() || null,
-      proxima_fecha:   document.getElementById("pf").value || null
+      competicion_externa: document.getElementById("f_ce").value.trim() || null,
+      desarrollo_personal: document.getElementById("f_dp").value.trim() || null,
+      entrenabilidad:      document.getElementById("f_en").value.trim() || null,
+      fortalezas:          document.getElementById("f_fo").value.trim() || null,
+      objetivos_mejora:    document.getElementById("f_ob").value.trim() || null,
+      observaciones:       document.getElementById("f_no").value.trim() || null
     };
+    if (filas.length) {
+      const { error } = await sb.from("valoraciones")
+        .upsert(filas, { onConflict: "evaluacion_id,indicador_id" });
+      if (error) throw error;
+    }
     if (cerrando) campos.estado = "cerrada";
-    const { error } = await sb.from("observaciones").update(campos).eq("id", obsId);
+    const { error } = await sb.from("evaluaciones").update(campos).eq("id", evId);
     if (error) throw error;
   }
 
@@ -498,93 +588,187 @@ async function vistaFicha(obsId, entNom, atras) {
   };
 
   document.getElementById("cerrar").onclick = async e => {
-    if (!confirm("Una vez cerrada, solo podrás editarla reabriéndola. ¿Cerrar la observación?")) return;
+    if (hechos() < total &&
+      !confirm(`Quedan ${total - hechos()} indicadores sin marcar. ¿Cerrar la ficha igualmente?`)) return;
+    if (!confirm("Una vez cerrada, solo la coordinación puede reabrirla. ¿Cerrar?")) return;
     e.target.disabled = true;
-    try { await guardar(true); vistaInforme(obsId, atras); }
+    try { await guardar(true); vistaInforme(evId, atras); }
     catch (err) { e.target.disabled = false; fallo(err); }
   };
 }
 
-function descripcion(c, nivel) {
-  if (!nivel) return `Toca un nivel para ver qué significa. <b>Excelente:</b> ${esc(c.d4 || "")}`;
-  const d = { 4: c.d4, 3: c.d3, 2: c.d2, 1: c.d1 }[nivel] || "";
-  return `<b>${texto(nivel)}:</b> ${esc(d)}`;
-}
-
 // ------------------------------ informe ------------------------------
 
-async function vistaInforme(obsId, atras) {
+async function vistaInforme(evId, atras) {
   pinta(`<div class="tarjeta vacio">Preparando informe…</div>`, "Informe", atras);
-  const { data, error } = await sb.rpc("informe_observacion", { obs_id: obsId });
+  const { data, error } = await sb.rpc("informe_jugadora", { eval_id: evId });
   if (error) return fallo(error);
 
-  const o = data.observacion, secs = data.secciones || [], als = data.alertas || [];
-  const mitad = Math.ceil(secs.length / 2);
+  const e = data.evaluacion, bloques = data.bloques || [];
+  const nom = `${e.jug_nombre || ""} ${e.jug_apellidos || ""}`.trim();
+  const mitad = Math.ceil(bloques.length / 2);
 
-  const lista = s => `
-    <p class="bt"><span>${esc(s.nombre)}</span>
-      <span>${s.porcentaje == null ? "sin datos" : s.porcentaje + "% · " + s.observados + " criterios"}</span></p>
-    ${s.criterios.map(c => `
-      <div class="ln"><span>${esc(c.nombre)}</span>
-        <em class="${c.nivel == null ? "no" : ""}">${texto(c.nivel)}</em></div>
-      ${c.descriptor ? `<div class="descr">${esc(c.descriptor)}</div>` : ""}
-      ${c.nota ? `<div class="nota">${esc(c.nota)}</div>` : ""}`).join("")}`;
+  const lista = b => `
+    <p class="bt">${esc(b.nombre)}</p>
+    ${b.indicadores.map(i => {
+      let flecha = "";
+      if (i.nivel != null && i.previo != null && i.nivel !== i.previo)
+        flecha = i.nivel > i.previo ? ' <span class="sube">▲</span>' : ' <span class="baja">▼</span>';
+      return `<div class="ln"><span>${esc(i.nombre)}</span>
+        <em class="${i.nivel == null ? "no" : ""}">${texto(i.nivel)}${flecha}</em></div>`;
+    }).join("")}`;
 
-  const parrafo = (t, v) => v ? `<p class="bt"><span>${t}</span></p><p class="texto">${esc(v)}</p>` : "";
+  const parrafo = (t, v) => v ? `<p class="bt">${t}</p><p class="texto">${esc(v)}</p>` : "";
 
   pinta(`
     <div class="fila-btn no-print" style="margin:16px 0 0">
       <button class="btn" id="imprimir" style="flex:0 0 auto">Imprimir o guardar en PDF</button>
-      ${o.estado === "borrador" ? `<button class="btn suave" id="seguir" style="flex:0 0 auto">Seguir editando</button>` : ""}
-      ${o.estado === "cerrada" ? `<button class="btn suave" id="reabrir" style="flex:0 0 auto">Reabrir</button>` : ""}
+      ${e.estado === "borrador" ? `<button class="btn suave" id="seguir" style="flex:0 0 auto">Seguir editando</button>` : ""}
+      ${e.estado === "cerrada" && esAdmin() ? `<button class="btn suave" id="reabrir" style="flex:0 0 auto">Reabrir ficha</button>` : ""}
     </div>
     <div class="informe">
       <div class="cab">
         <div style="display:flex;gap:10px;align-items:flex-start">
           <img src="icono.png" alt="" class="escudo">
           <div>
-            <p class="nom">${esc(o.entrenador_nombre || "")}</p>
-            <p>${esc(o.categoria || "")}</p>
+            <p class="nom">${esc(nom)}</p>
+            <p>${esc(e.equipo)}${e.dorsal ? " · dorsal " + e.dorsal : ""}${e.anio_nacimiento ? " · nacida en " + e.anio_nacimiento : ""}</p>
           </div>
         </div>
         <div style="text-align:right">
-          <p>${esc(o.periodo || "Observación")} · ${fecha(o.fecha)}</p>
-          <p>Observa: ${esc(o.evaluador_nombre || "")}</p>
+          <p>Temporada ${esc(e.temporada)}</p>
+          <p>${esc(e.periodo || "Evaluación")} · ${fecha(e.fecha)}</p>
         </div>
       </div>
-
-      ${als.length ? `<div class="banda">
-        <p>Indicadores de alerta — requieren intervención del mentor</p>
-        <ul>${als.map(a => `<li>${esc(a)}</li>`).join("")}</ul>
-      </div>` : ""}
-
       <div class="cols">
-        <div>${secs.slice(0, mitad).map(lista).join("")}</div>
-        <div>${secs.slice(mitad).map(lista).join("")}</div>
+        <div>${bloques.slice(0, mitad).map(lista).join("")}</div>
+        <div>${bloques.slice(mitad).map(lista).join("")}
+          ${parrafo("Desarrollo personal", e.desarrollo_personal)}
+          ${parrafo("Entrenabilidad", e.entrenabilidad)}</div>
       </div>
-
-      ${parrafo("Fortalezas observadas", o.fortalezas)}
-      ${parrafo("Áreas de mejora prioritarias", o.areas_mejora)}
-      ${parrafo("Recomendaciones específicas", o.recomendaciones)}
-      ${parrafo("Objetivos a trabajar", o.objetivos)}
-      ${o.proxima_fecha ? `<p class="texto" style="margin-top:10px"><b>Próxima observación:</b> ${fecha(o.proxima_fecha)}</p>` : ""}
-
+      ${e.competicion_externa ? `<div class="externa">
+        <p class="bt">Desempeño competitivo externo</p>
+        <p class="texto">${esc(e.competicion_externa)}</p></div>` : ""}
+      ${parrafo("Fortalezas", e.fortalezas)}
+      ${parrafo("Objetivos de mejora", e.objetivos_mejora)}
+      ${parrafo("Observaciones del entrenador", e.observaciones)}
       <div class="pie">
-        <span>Los porcentajes se calculan solo sobre los criterios observados</span>
-        <span>${esc(NOMBRE_CLUB)} · documento interno del club</span>
+        <span>▲ ▼ cambio respecto a la evaluación anterior</span>
+        <span>${esc(e.entrenador)} · ${esc(NOMBRE_CLUB)} · documento interno del club</span>
       </div>
-    </div>`, o.entrenador_nombre || "Informe", atras);
+    </div>`, nom || "Informe", atras);
 
   document.getElementById("imprimir").onclick = () => window.print();
   const s = document.getElementById("seguir");
-  if (s) s.onclick = () => vistaFicha(obsId, o.entrenador_nombre, atras);
+  if (s) s.onclick = () => vistaFicha(evId, nom, atras);
+
   const r = document.getElementById("reabrir");
   if (r) r.onclick = async () => {
-    if (!confirm("La observación volverá a estado de borrador. ¿Reabrir?")) return;
-    const { error } = await sb.from("observaciones").update({ estado: "borrador" }).eq("id", obsId);
-    if (error) return fallo(error);
-    vistaFicha(obsId, o.entrenador_nombre, atras);
+    if (!confirm("La ficha volverá a estado de borrador y su autor podrá editarla de nuevo. ¿Reabrir?")) return;
+    r.disabled = true;
+    const { error } = await sb.from("evaluaciones").update({ estado: "borrador" }).eq("id", evId);
+    if (error) { r.disabled = false; return fallo(error); }
+    vistaFicha(evId, nom, atras);
   };
+}
+
+// --------------------------- administración --------------------------
+
+async function vistaAdmin() {
+  pinta(`<div class="tarjeta vacio">Cargando…</div>`, "Administración", vistaEquipos);
+  const [{ data: temps }, { data: eqs }, { data: gente }] = await Promise.all([
+    sb.from("temporadas").select("id,nombre,activa").order("nombre", { ascending: false }),
+    sb.from("equipos").select("id,nombre,temporadas(nombre)").order("nombre"),
+    sb.from("perfiles").select("id,nombre,rol").order("nombre")
+  ]);
+
+  const opc = (arr, txt) => (arr || []).map(x => `<option value="${x.id}">${esc(txt(x))}</option>`).join("");
+
+  pinta(`
+    <div class="tarjeta">
+      <h3>Temporadas</h3>
+      <ul class="lista" style="margin:10px 0">${(temps || []).map(t =>
+        `<li><button disabled style="cursor:default"><span>${esc(t.nombre)}</span>
+        <span class="meta">${t.activa ? "activa" : ""}</span></button></li>`).join("") ||
+        `<li><div class="vacio">Ninguna todavía.</div></li>`}</ul>
+      <label for="tn">Nueva temporada</label>
+      <div style="display:flex;gap:10px">
+        <input id="tn" placeholder="2027/28">
+        <button class="btn suave" id="tadd" style="flex:0 0 auto">Crear</button>
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Equipos</h3>
+      <ul class="lista" style="margin:10px 0">${(eqs || []).map(e =>
+        `<li><button disabled style="cursor:default"><span>${esc(e.nombre)}</span>
+        <span class="meta">${esc(e.temporadas?.nombre || "")}</span></button></li>`).join("") ||
+        `<li><div class="vacio">Ninguno todavía.</div></li>`}</ul>
+      <div style="display:grid;grid-template-columns:2fr 1.4fr 1.4fr;gap:10px">
+        <div><label for="en">Nombre</label><input id="en" placeholder="Infantil femenino A"></div>
+        <div><label for="ec">Categoría</label><input id="ec" placeholder="Infantil"></div>
+        <div><label for="et">Temporada</label><select id="et">${opc(temps, t => t.nombre)}</select></div>
+      </div>
+      <div class="fila-btn"><button class="btn suave" id="eadd" style="flex:0 0 auto">Crear equipo</button></div>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Entrenadores</h3>
+      <p class="aviso">Las altas de usuario se hacen en Supabase, en Authentication → Users → Invite.
+        Aquí se les asigna equipo y rol.</p>
+      <ul class="lista" style="margin:10px 0">${(gente || []).map(g =>
+        `<li><div style="display:flex;gap:8px;align-items:center;padding:9px 0;flex-wrap:wrap">
+          <input data-nom="${g.id}" value="${esc(g.nombre)}" style="flex:1;min-width:150px">
+          <select data-rol="${g.id}" style="flex:0 0 auto;width:auto">
+            <option value="entrenador"${g.rol === "entrenador" ? " selected" : ""}>entrenador</option>
+            <option value="coordinacion"${g.rol === "coordinacion" ? " selected" : ""}>coordinación</option>
+            <option value="admin"${g.rol === "admin" ? " selected" : ""}>admin</option>
+          </select>
+          <button class="btn suave" data-guardar="${g.id}" style="flex:0 0 auto">Guardar</button>
+        </div></li>`).join("")}</ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label for="ap">Entrenador</label><select id="ap">${opc(gente, g => g.nombre)}</select></div>
+        <div><label for="ae">Equipo</label><select id="ae">${opc(eqs, e => e.nombre)}</select></div>
+      </div>
+      <div class="fila-btn"><button class="btn suave" id="aadd" style="flex:0 0 auto">Asignar al equipo</button></div>
+    </div>`, "Administración", vistaEquipos);
+
+  document.getElementById("tadd").onclick = async () => {
+    const nombre = document.getElementById("tn").value.trim();
+    if (!nombre) return fallo(new Error("escribe el nombre de la temporada."));
+    const { error } = await sb.from("temporadas").insert({ nombre });
+    if (error) return fallo(error);
+    vistaAdmin();
+  };
+  document.getElementById("eadd").onclick = async () => {
+    const nombre = document.getElementById("en").value.trim();
+    const temporada_id = +document.getElementById("et").value;
+    if (!nombre || !temporada_id) return fallo(new Error("hacen falta nombre y temporada."));
+    const { error } = await sb.from("equipos").insert({
+      nombre, temporada_id, categoria: document.getElementById("ec").value.trim() || null });
+    if (error) return fallo(error);
+    vistaAdmin();
+  };
+  document.getElementById("aadd").onclick = async () => {
+    const entrenador_id = document.getElementById("ap").value;
+    const equipo_id = +document.getElementById("ae").value;
+    if (!entrenador_id || !equipo_id) return fallo(new Error("elige entrenador y equipo."));
+    const { error } = await sb.from("equipo_entrenador")
+      .upsert({ entrenador_id, equipo_id }, { ignoreDuplicates: true });
+    if (error) return fallo(error);
+    vistaAdmin();
+  };
+
+  app.querySelectorAll("[data-guardar]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.guardar;
+    const nombre = app.querySelector(`[data-nom="${id}"]`).value.trim();
+    const rol = app.querySelector(`[data-rol="${id}"]`).value;
+    if (!nombre) return fallo(new Error("el nombre no puede quedar vacío."));
+    const { error } = await sb.from("perfiles").update({ nombre, rol }).eq("id", id);
+    if (error) return fallo(error);
+    b.textContent = "Guardado";
+    setTimeout(() => { b.textContent = "Guardar"; }, 1500);
+  });
 }
 
 arrancar();

@@ -160,7 +160,7 @@ label{display:block;font-size:13px;font-weight:500;color:var(--tinta-2);margin:0
 //  CONFIGURACIÓN — los mismos dos valores que en index.html
 // ---------------------------------------------------------------------
 const SUPABASE_URL  = "https://qubqlsxkvilyzqjlizsn.supabase.co";
-const SUPABASE_ANON = "sb_publishable_cNbBJ7D8tszAkI6EY9Jvqw_jkJckNBk";
+const SUPABASE_ANON = "PEGA-AQUI-TU-CLAVE-sb_publishable_...";
 const NOMBRE_CLUB   = "Celta Baloncesto";
 // ---------------------------------------------------------------------
 
@@ -328,6 +328,10 @@ async function vistaHistorial(entId, entNom) {
           <select id="per">${PERIODOS.map(p => `<option value="${p.v}">${p.t}</option>`).join("")}</select></div>
         <button class="btn" id="nueva" style="flex:0 0 auto">Nueva observación</button>
       </div>
+      <div class="fila-btn">
+        <button class="btn suave" id="baja" style="flex:0 0 auto">Dar de baja</button>
+        <button class="btn suave" id="borrar" style="flex:0 0 auto">Borrar definitivamente</button>
+      </div>
     </div>
     <div class="tarjeta">
       <h3>Historial</h3>
@@ -343,6 +347,21 @@ async function vistaHistorial(entId, entNom) {
     if (error) return fallo(error);
     vistaHistorial(entId, entNom);
   });
+
+  document.getElementById("baja").onclick = async () => {
+    if (!confirm(`${entNom} dejará de aparecer en el listado, pero se conservan todas sus observaciones. ¿Darle de baja?`)) return;
+    const { error } = await sb.from("ent_entrenadores").update({ activo: false }).eq("id", entId);
+    if (error) return fallo(error);
+    vistaEntrenadores();
+  };
+
+  document.getElementById("borrar").onclick = async () => {
+    const n = (data || []).length;
+    if (!confirm(`Se borrará a ${entNom}${n ? ` y sus ${n} observaciones` : ""} de forma permanente. No se puede deshacer.\n\nSi solo quieres que desaparezca del listado, usa «Dar de baja».\n\n¿Borrar definitivamente?`)) return;
+    const { error } = await sb.from("ent_entrenadores").delete().eq("id", entId);
+    if (error) return fallo(error);
+    vistaEntrenadores();
+  };
 
   const n = document.getElementById("nueva");
   if (n) n.onclick = async () => {
